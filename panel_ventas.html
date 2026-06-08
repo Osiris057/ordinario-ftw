@@ -31,10 +31,8 @@
 
         main { flex: 1; padding: 2rem; display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box; }
         
-        /* Sección Izquierda: Búsqueda y Carrito */
         .left-panel { flex: 2; display: flex; flex-direction: column; gap: 1.5rem; }
         
-        /* Estilos del Combobox / Autocompletado */
         .search-container { position: relative; width: 100%; }
         .search-container input { width: 100%; padding: 1rem 1.5rem; font-size: 1.1rem; border: 2px solid var(--border-color); border-radius: 8px; box-sizing: border-box; }
         .search-container input:focus { outline: none; border-color: var(--primary-btn); }
@@ -49,14 +47,12 @@
         th { background-color: #f1f5f9; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; }
         .btn-remove { background-color: var(--danger-btn); color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-weight: bold; }
         
-        /* Sección Derecha: Resumen de Cobro */
         .right-panel { flex: 1; background-color: var(--box-light); border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; justify-content: space-between; max-height: 400px; position: sticky; top: 2rem; }
         .totals-row { display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 1rem; }
         .grand-total { font-size: 2rem; font-weight: bold; color: var(--success-color); display: flex; justify-content: space-between; border-top: 2px solid var(--border-color); padding-top: 1rem; }
         .btn-checkout { background-color: var(--success-color); color: white; border: none; padding: 1.2rem; font-size: 1.2rem; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; width: 100%; margin-top: 1.5rem; }
         .btn-checkout:hover { background-color: #059669; }
 
-        /* Estilos del Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background-color: var(--box-light); border-radius: 10px; width: 90%; max-width: 400px; display: flex; flex-direction: column; overflow: hidden; }
         .modal-header { padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; }
