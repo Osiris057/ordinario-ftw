@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timezone" content="America/Mexico_City">
+    <title>Proveedores - Atlas Corporation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --box-light: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-btn: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #cbd5e1;
+            --toolbar-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--box-light);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        header img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .toolbar-btn.volver {
+            color: var(--primary-btn);
+        }
+
+        main {
+            flex: 1;
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: var(--box-light);
+            padding: 2.5rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-btn);
+        }
+
+        .card img {
+            max-height: 45px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-main);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
+        <h1>Gestión de Proveedores</h1>
+    </header>
+
+    <div class="toolbar">
+        <a href="panel_admin.html" class="toolbar-btn volver">
+            Volver al menú principal
+        </a>
+    </div>
+
+    <main>
+        <div class="grid-container">
+            
+            <a href="panel_compra_mercancia.html" class="card">
+                <img src="src/carrito-de-compras.png" alt="Icono Compras">
+                <h2>Realizar Compra</h2>
+                <p>Registrar el ingreso de nueva mercancía al inventario.</p>
+            </a>
+            
+            <a href="panel_historial_de_compras.html" class="card">
+                <img src="src/listas-de-control.png" alt="Icono Historial">
+                <h2>Mostrar Historial de Compras</h2>
+                <p>Consultar el registro de compras realizadas a proveedores.</p>
+            </a>
+
+            <a href="panel_gestion_proveedores.html" class="card">
+                <img src="src/anadir-grupo.png" alt="Icono Añadir Proveedor">
+                <h2>Gestionar Proveedores</h2>
+                <p>Dar de alta a un nuevo proveedor en el sistema o eliminar uno ya existente.</p>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compras>
+    <compra>
+        <folio>C-000501</folio>
+        <fecha>2026-06-05T11:20:00</fecha>
+        <id_proveedor>PROV-001</id_proveedor>
+        <total>19000.00</total>
+        <articulos>
+            <articulo>
+                <codigo>7501020304050</codigo>
+                <cantidad>5</cantidad>
+                <costo_unitario>3800.00</costo_unitario>
+                <subtotal>19000.00</subtotal>
+            </articulo>
+        </articulos>
+    </compra>
+</compras>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ventas>
+    <venta>
+        <folio>V-001024</folio>
+        <fecha>2026-06-06T10:15:00</fecha>
+        <cajero>admin_master</cajero>
+        <total>6200.00</total>
+        <articulos>
+            <articulo>
+                <codigo>7501020304050</codigo>
+                <cantidad>1</cantidad>
+                <subtotal>4500.00</subtotal>
+            </articulo>
+            <articulo>
+                <codigo>7509080706050</codigo>
+                <cantidad>2</cantidad>
+                <subtotal>1700.00</subtotal>
+            </articulo>
+        </articulos>
+    </venta>
+</ventas>

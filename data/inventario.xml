@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inventario>
+    <producto>
+        <codigo>7501020304050</codigo>
+        <nombre>Monitor Asus Vivobook Go</nombre>
+        <costo>3800.00</costo>
+        <precio>4500.00</precio>
+        <stock>24</stock>
+        <id_proveedor>PROV-001</id_proveedor>
+    </producto>
+    <producto>
+        <codigo>7509080706050</codigo>
+        <nombre>Teclado Mecánico</nombre>
+        <costo>600.00</costo>
+        <precio>850.00</precio>
+        <stock>48</stock>
+        <id_proveedor>PROV-002</id_proveedor>
+    </producto>
+</inventario>

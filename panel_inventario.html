@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timezone" content="America/Mexico_City">
+    <title>Estado del Inventario - Atlas Corporation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --box-light: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-btn: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #cbd5e1;
+            --danger-btn: #ef4444;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --toolbar-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--box-light);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        header img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .toolbar-btn.volver {
+            color: var(--primary-btn);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-btn);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .inventory-container {
+            background-color: var(--box-light);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        td {
+            font-size: 1rem;
+        }
+
+        /* Etiquetas visuales para el tipo de operación */
+        .badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .badge-venta {
+            background-color: #fee2e2;
+            color: var(--danger-btn);
+        }
+
+        .badge-compra {
+            background-color: #d1fae5;
+            color: var(--success-color);
+        }
+
+        .badge-ajuste {
+            background-color: #fef3c7;
+            color: var(--warning-color);
+        }
+
+        .stock-level {
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
+        <h1>Estado del Inventario</h1>
+    </header>
+
+    <div class="toolbar">
+        <button class="toolbar-btn" id="btn-ajuste-manual">
+            Registrar Ajuste Manual
+        </button>
+        <button class="toolbar-btn" id="btn-exportar">
+            Exportar Reporte
+        </button>
+        <a href="panel_admin.html" class="toolbar-btn volver">
+            Volver al menú principal
+        </a>
+    </div>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="buscar-movimiento" placeholder="Buscar por código de producto, nombre o folio..." autofocus>
+        </div>
+
+        <div class="inventory-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <th>Producto</th>
+                        <th>Tipo de Operación</th>
+                        <th>Folio</th>
+                        <th>Movimiento</th>
+                        <th>Existencia Total</th>
+                        <th>Responsable</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-inventario">
+                    <tr>
+                        <td>06/06/2026 10:15 AM</td>
+                        <td>Monitor Asus Vivobook Go</td>
+                        <td><span class="badge badge-venta">Venta</span></td>
+                        <td>V-001024</td>
+                        <td style="color: var(--danger-btn); font-weight: bold;">-1</td>
+                        <td class="stock-level">24</td>
+                        <td>Hans Martinez</td>
+                    </tr>
+                    <tr>
+                        <td>05/06/2026 11:20 AM</td>
+                        <td>Monitor Asus Vivobook Go</td>
+                        <td><span class="badge badge-compra">Compra</span></td>
+                        <td>C-000501</td>
+                        <td style="color: var(--success-color); font-weight: bold;">+5</td>
+                        <td class="stock-level">25</td>
+                        <td>Admin General</td>
+                    </tr>
+                    <tr>
+                        <td>04/06/2026 08:00 AM</td>
+                        <td>Teclado Mecánico</td>
+                        <td><span class="badge badge-ajuste">Ajuste</span></td>
+                        <td>AJ-0042</td>
+                        <td style="color: var(--warning-color); font-weight: bold;">-2</td>
+                        <td class="stock-level">48</td>
+                        <td>Admin General</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

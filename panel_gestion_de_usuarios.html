@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timezone" content="America/Mexico_City">
+    <title>Gestión de Usuarios - Atlas Corporation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --box-light: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-btn: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #cbd5e1;
+            --danger-btn: #ef4444;
+            --danger-hover: #dc2626;
+            --toolbar-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--box-light);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        header img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .toolbar-btn.volver {
+            color: var(--primary-btn);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-btn);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .table-container {
+            background-color: var(--box-light);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        td {
+            font-size: 1rem;
+        }
+
+        .btn-edit {
+            background-color: #f8fafc;
+            color: var(--primary-btn);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn-edit:hover {
+            background-color: var(--primary-btn);
+            color: white;
+            border-color: var(--primary-btn);
+        }
+
+        .status-active {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: var(--danger-btn);
+            font-weight: bold;
+        }
+
+        .toolbar-btn.peligro {
+            color: var(--danger-btn);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
+        <h1>Gestión de Usuarios</h1>
+    </header>
+
+    <div class="toolbar">
+        <button class="toolbar-btn" id="btn-agregar-usuario">
+            Agregar Usuario
+        </button>
+        <button class="toolbar-btn peligro" id="btn-eliminar-proveedor">
+            Eliminar Usuario
+        </button>
+        <a href="panel_admin.html" class="toolbar-btn volver">
+            Volver al menú principal
+        </a>
+    </div>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="buscar-usuario" placeholder="Buscar por nombre completo, usuario o rol..." autofocus>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-usuarios">
+                    <tr>
+                        <td>USR-001</td>
+                        <td>Administrador Principal</td>
+                        <td>admin_master</td>
+                        <td>Administrador</td>
+                        <td class="status-active">Activo</td>
+                        <td><button class="btn-edit">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td>USR-002</td>
+                        <td>Hans Martinez</td>
+                        <td>hans_m</td>
+                        <td>Cajero</td>
+                        <td class="status-active">Activo</td>
+                        <td><button class="btn-edit">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td>USR-003</td>
+                        <td>Empleado Temporal</td>
+                        <td>temp_01</td>
+                        <td>Cajero</td>
+                        <td class="status-inactive">Inactivo</td>
+                        <td><button class="btn-edit">Editar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

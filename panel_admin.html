@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timezone" content="America/Mexico_City">
+    <title>Panel de Administrador - Atlas Corporation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --box-light: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-btn: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #cbd5e1;
+            --danger-btn: #ef4444;
+            --danger-hover: #dc2626;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--box-light);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-main);
+        }
+
+        .logout-btn {
+            background-color: var(--danger-btn);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--danger-hover);
+        }
+
+        main {
+            flex: 1;
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--box-light);
+            padding: 2.5rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-btn);
+        }
+
+        .card img {
+            max-height: 40px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-main);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
+            <h1>Panel de control</h1>
+        </div>
+        <a href="index.html" class="logout-btn">Cerrar sesión</a>
+    </header>
+
+    <main>
+        <div class="grid-container">
+            
+            <a href="panel_ventas.html" class="card">
+                <img src="src/carrito-de-compras.png" alt="Icono Ventas">
+                <h2>Realizar Ventas</h2>
+                <p>Punto de cobro y registro de salida de inventario.</p>
+            </a>
+            
+            <a href="panel_pirincipal_proveedores.html" class="card">
+                <img src="src/caja-negra.png" alt="Icono Compras">
+                <h2>Compras a Proveedores</h2>
+                <p>Ingreso de nueva mercancía al sistema.</p>
+            </a>
+
+            <a href="panel_gestion_de_usuarios.html" class="card">
+                <img src="src/anadir-grupo.png" alt="Icono Usuarios">
+                <h2>Gestionar Usuarios</h2>
+                <p>Control de accesos, roles y permisos del personal.</p>
+            </a>
+
+            <a href="panel_inventario.html" class="card">
+                <img src="src/listas-de-control.png" alt="Icono Inventario">
+                <h2>Estado del Inventario</h2>
+                <p>Consulta de existencias y movimientos de productos.</p>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>

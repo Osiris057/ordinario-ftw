@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="LOGO_ATLAS_PNG.svg"
+   inkscape:export-filename="LOGO_ATLAS_PNG.png"
+   inkscape:export-xdpi="130.76297"
+   inkscape:export-ydpi="130.76297"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#ffffff"
+     borderopacity="0"
+     inkscape:showpageshadow="false"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="false"
+     borderlayer="false"
+     inkscape:clip-to-page="false"
+     showguides="true"
+     inkscape:zoom="0.125"
+     inkscape:cx="-4"
+     inkscape:cy="324"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <color-profile
+       name="Agfa-:-Swop-Standard"
+       xlink:href="../../../WINDOWS/system32/spool/drivers/color/RSWOP.icm"
+       id="color-profile2" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path6"
+       style="fill:#343434;fill-opacity:1;stroke-width:1.42838"
+       inkscape:transform-center-y="-136.8802"
+       d="M 105.00152,-306.96385 -172.69208,103.67536 -450.38568,514.31761 105.00152,-40.299713 660.38568,514.31761 382.69212,103.67536 Z"
+       inkscape:transform-center-x="1.8957929e-05"
+       inkscape:export-filename="path6.png"
+       inkscape:export-xdpi="130.76297"
+       inkscape:export-ydpi="130.76297" />
+    <rect
+       style="fill:#2c4dff;fill-opacity:1;stroke-width:0.37315"
+       id="rect6-1"
+       width="194.52022"
+       height="194.52022"
+       x="-169.75861"
+       y="123.62814"
+       transform="matrix(0.70759599,-0.70661723,0.70759599,0.70661723,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.5505px;font-family:'ROG Fonts';-inkscape-font-specification:'ROG Fonts';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#272727;fill-opacity:1;stroke-width:1.54588"
+       x="105"
+       y="419.66434"
+       id="text6"><tspan
+         id="tspan6"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ROG Fonts';-inkscape-font-specification:'ROG Fonts';stroke-width:1.54588"
+         x="105"
+         y="419.66434"
+         sodipodi:role="line"> </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:47.1411px;font-family:'Simple Tech Bold 02';-inkscape-font-specification:'Simple Tech Bold 02 Heavy';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#272727;stroke-width:3.92843"
+       x="-335.95782"
+       y="504.26019"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="stroke-width:3.92843"
+         x="-335.95782"
+         y="504.26019">ATLAS CORPORATION</tspan></text>
+  </g>
+</svg>
