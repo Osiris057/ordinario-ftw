@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE proveedores SYSTEM "proveedores.dtd">
+<proveedores>
+    <proveedor>
+        <id>PROV-001</id>
+        <empresa>Distribuidora Tech</empresa>
+        <contacto>Juan Pérez</contacto>
+        <telefono>555-0123-456</telefono>
+        <correo>contacto@disttech.com</correo>
+    </proveedor>
+    <proveedor>
+        <id>PROV-002</id>
+        <empresa>Periféricos del Golfo</empresa>
+        <contacto>Ana López</contacto>
+        <telefono>555-0456-789</telefono>
+        <correo>ventas@perigolfo.mx</correo>
+    </proveedor>
+    <proveedor>
+        <id>PROV-003</id>
+        <empresa>Mayoristas de Cómputo S.A.</empresa>
+        <contacto>Carlos Martínez</contacto>
+        <telefono>555-0789-012</telefono>
+        <correo>cmartinez@mayoristas.com</correo>
+    </proveedor>
+</proveedores>

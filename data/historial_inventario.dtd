@@ -1,0 +1,8 @@
+<!ELEMENT historial (movimiento+)>
+<!ELEMENT movimiento (id, fecha, tipo, producto, cantidad, usuario)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT fecha (#PCDATA)>
+<!ELEMENT tipo (#PCDATA)>
+<!ELEMENT producto (#PCDATA)>
+<!ELEMENT cantidad (#PCDATA)>
+<!ELEMENT usuario (#PCDATA)>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE compras SYSTEM "compras.dtd">
 <compras>
     <compra>
         <folio>C-000501</folio>

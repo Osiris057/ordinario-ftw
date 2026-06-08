@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE historial SYSTEM "historial_inventario.dtd">
+<historial>
+    <movimiento>
+        <id>MOV-001</id>
+        <fecha>2026-06-07 10:30</fecha>
+        <tipo>Compra</tipo>
+        <producto>Monitor Asus Vivobook Go</producto>
+        <cantidad>+5</cantidad>
+        <usuario>admin_master</usuario>
+    </movimiento>
+    <movimiento>
+        <id>MOV-002</id>
+        <fecha>2026-06-07 14:15</fecha>
+        <tipo>Venta</tipo>
+        <producto>Teclado Mecánico RGB</producto>
+        <cantidad>-2</cantidad>
+        <usuario>hans_m</usuario>
+    </movimiento>
+    <movimiento>
+        <id>MOV-003</id>
+        <fecha>2026-06-07 18:20</fecha>
+        <tipo>Ajuste</tipo>
+        <producto>Disco Duro 1TB</producto>
+        <cantidad>-1</cantidad>
+        <usuario>admin_master</usuario>
+    </movimiento>
+</historial>

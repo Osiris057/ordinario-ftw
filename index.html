@@ -124,6 +124,55 @@
         </form>
 
     </div>
-
+    <script>
+        const form = document.querySelector('form');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            
+            const inputUsername = document.getElementById('username').value;
+            const inputPassword = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('data/usuarios.xml');
+                
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar la base de datos de usuarios');
+                }
+                
+                const xmlText = await response.text();
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                
+                const usuarios = xmlDoc.getElementsByTagName('usuario');
+                let loginExitoso = false;
+                let rolUsuario = '';
+                
+                for (let i = 0; i < usuarios.length; i++) {
+                    const user = usuarios[i].getElementsByTagName('username')[0].textContent;
+                    const pass = usuarios[i].getElementsByTagName('password')[0].textContent;
+                    
+                    if (user === inputUsername && pass === inputPassword) {
+                        loginExitoso = true;
+                        rolUsuario = usuarios[i].getElementsByTagName('rol')[0].textContent;
+                        break;
+                    }
+                }
+                
+                if (loginExitoso) {
+                    sessionStorage.setItem('rolActivo', rolUsuario);
+                    sessionStorage.setItem('usuarioActivo', inputUsername);
+                    window.location.href = 'panel_admin.html';
+                } else {
+                    alert('Usuario o contraseña incorrectos');
+                }
+                
+            } catch (error) {
+                console.error('Error del sistema:', error);
+                alert('Hubo un error al intentar iniciar sesión. Revisa la consola.');
+            }
+        });
+    </script>
 </body>
 </html>

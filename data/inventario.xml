@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE inventario SYSTEM "inventario.dtd">
 <inventario>
     <producto>
-        <codigo>7501020304050</codigo>
+        <id>PROD-001</id>
         <nombre>Monitor Asus Vivobook Go</nombre>
-        <costo>3800.00</costo>
-        <precio>4500.00</precio>
-        <stock>24</stock>
-        <id_proveedor>PROV-001</id_proveedor>
+        <categoria>Periféricos</categoria>
+        <precio>3800.00</precio>
+        <stock>15</stock>
     </producto>
     <producto>
-        <codigo>7509080706050</codigo>
-        <nombre>Teclado Mecánico</nombre>
-        <costo>600.00</costo>
-        <precio>850.00</precio>
-        <stock>48</stock>
-        <id_proveedor>PROV-002</id_proveedor>
+        <id>PROD-002</id>
+        <nombre>Teclado Mecánico RGB</nombre>
+        <categoria>Periféricos</categoria>
+        <precio>600.00</precio>
+        <stock>5</stock>
+    </producto>
+    <producto>
+        <id>PROD-003</id>
+        <nombre>Disco Duro 1TB</nombre>
+        <categoria>Almacenamiento</categoria>
+        <precio>1200.00</precio>
+        <stock>20</stock>
     </producto>
 </inventario>

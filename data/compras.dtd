@@ -1,0 +1,12 @@
+<!ELEMENT compras (compra+)>
+<!ELEMENT compra (folio, fecha, id_proveedor, total, articulos)>
+<!ELEMENT folio (#PCDATA)>
+<!ELEMENT fecha (#PCDATA)>
+<!ELEMENT id_proveedor (#PCDATA)>
+<!ELEMENT total (#PCDATA)>
+<!ELEMENT articulos (articulo+)>
+<!ELEMENT articulo (codigo, cantidad, costo_unitario, subtotal)>
+<!ELEMENT codigo (#PCDATA)>
+<!ELEMENT cantidad (#PCDATA)>
+<!ELEMENT costo_unitario (#PCDATA)>
+<!ELEMENT subtotal (#PCDATA)>

@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="timezone" content="America/Mexico_City">
-    <title>Panel de Ventas - Atlas Corporation</title>
+    <title>Punto de Venta - Atlas Corporation</title>
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -17,435 +15,349 @@
             --border-color: #cbd5e1;
             --danger-btn: #ef4444;
             --danger-hover: #dc2626;
+            --success-color: #10b981;
             --toolbar-bg: #f8fafc;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            margin: 0;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-dark); margin: 0; color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: var(--box-light); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10; }
+        header img { max-height: 40px; width: auto; }
+        header h1 { margin: 0; font-size: 1.5rem; color: var(--text-main); }
+        
+        .toolbar { background-color: var(--toolbar-bg); padding: 0.8rem 2rem; display: flex; gap: 1.5rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .toolbar-btn { background: none; border: none; color: var(--text-main); font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .toolbar-btn:hover { background-color: #e2e8f0; }
+        .toolbar-btn.volver { color: var(--primary-btn); }
 
-        header {
-            background-color: var(--box-light);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
+        main { flex: 1; padding: 2rem; display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        
+        /* Sección Izquierda: Búsqueda y Carrito */
+        .left-panel { flex: 2; display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        /* Estilos del Combobox / Autocompletado */
+        .search-container { position: relative; width: 100%; }
+        .search-container input { width: 100%; padding: 1rem 1.5rem; font-size: 1.1rem; border: 2px solid var(--border-color); border-radius: 8px; box-sizing: border-box; }
+        .search-container input:focus { outline: none; border-color: var(--primary-btn); }
+        .autocomplete-items { position: absolute; border: 1px solid var(--border-color); border-top: none; z-index: 99; top: 100%; left: 0; right: 0; background-color: #fff; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: none; }
+        .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .autocomplete-item:hover { background-color: #e2e8f0; }
+        .autocomplete-item strong { color: var(--primary-btn); }
 
-        header img {
-            max-height: 40px;
-            width: auto;
-        }
+        .table-container { background-color: var(--box-light); border-radius: 10px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); flex: 1; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f1f5f9; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; }
+        .btn-remove { background-color: var(--danger-btn); color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        /* Sección Derecha: Resumen de Cobro */
+        .right-panel { flex: 1; background-color: var(--box-light); border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; justify-content: space-between; max-height: 400px; position: sticky; top: 2rem; }
+        .totals-row { display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 1rem; }
+        .grand-total { font-size: 2rem; font-weight: bold; color: var(--success-color); display: flex; justify-content: space-between; border-top: 2px solid var(--border-color); padding-top: 1rem; }
+        .btn-checkout { background-color: var(--success-color); color: white; border: none; padding: 1.2rem; font-size: 1.2rem; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; width: 100%; margin-top: 1.5rem; }
+        .btn-checkout:hover { background-color: #059669; }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--text-main);
-        }
+        /* Estilos del Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background-color: var(--box-light); border-radius: 10px; width: 90%; max-width: 400px; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; }
+        .modal-header h2 { margin: 0; font-size: 1.5rem; }
+        .close-modal { background: none; border: none; font-size: 1.8rem; cursor: pointer; }
+        .modal-body { padding: 2rem; }
+        .modal-footer { padding: 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 1rem; background-color: #f8fafc; }
+        .btn-cancel { background-color: transparent; border: 1px solid var(--border-color); padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; }
+        .btn-confirm { background-color: var(--danger-btn); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; }
 
-        .toolbar {
-            background-color: var(--toolbar-bg);
-            padding: 0.8rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .toolbar-btn {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .toolbar-btn:hover {
-            background-color: #e2e8f0;
-        }
-
-        .toolbar-btn.volver {
-            color: var(--primary-btn);
-        }
-
-        main {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .search-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: var(--primary-btn);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-
-        .sales-container {
-            background-color: var(--box-light);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        td {
-            font-size: 1rem;
-        }
-
-        .btn-remove {
-            background-color: var(--danger-btn);
-            color: white;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-remove:hover {
-            background-color: var(--danger-hover);
-        }
-
-        .sales-summary {
-            margin-top: auto;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid var(--border-color);
-        }
-
-        .total-text {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--text-main);
-        }
-
-        .total-amount {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary-btn);
-        }
-
-        .btn-cobrar {
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-cobrar:hover {
-            background-color: #059669;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--box-light);
-            border-radius: 10px;
-            width: 90%;
-            max-width: 900px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f8fafc;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: var(--text-main);
-            font-size: 1.5rem;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text-muted);
-            line-height: 1;
-        }
-
-        .close-modal:hover {
-            color: var(--danger-btn);
-        }
-
-        .modal-body {
-            padding: 2rem;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .modal-footer {
-            padding: 1.5rem 2rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            background-color: #f8fafc;
-        }
-
-        .btn-cancel {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-cancel:hover {
-            background-color: #e2e8f0;
-        }
-
-        .btn-confirm {
-            background-color: var(--danger-btn);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-confirm:hover {
-            background-color: var(--danger-hover);
-        }
+        @media (max-width: 900px) { main { flex-direction: column; } .right-panel { position: relative; top: 0; } }
     </style>
 </head>
-
 <body>
 
     <header>
         <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
-        <h1>Panel de ventas</h1>
+        <h1>Punto de Venta</h1>
     </header>
 
     <div class="toolbar">
-        <button class="toolbar-btn" id="btn-corte-caja">
-            Corte de caja
-        </button>
-        <a href="panel_historial_de_ventas.html" class="toolbar-btn">
-            Mostrar historial de ventas
-        </a>
-        <a href="panel_admin.html" class="toolbar-btn volver">
-            Volver al menú principal
-        </a>
-        <button onclick="window.history.back()" class="toolbar-btn volver" id="btn-volver">
-            Regresar
-        </button>
+        <a href="panel_historial_de_ventas.html" class="toolbar-btn">Ver Historial de Ventas</a>
+        <a href="panel_admin.html" class="toolbar-btn volver">Volver al menú principal</a>
     </div>
 
     <main>
-        <div class="search-container">
-            <input type="text" id="buscar-producto" placeholder="Escanear código de barras o buscar producto..."
-                autofocus>
-        </div>
-
-        <div class="sales-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Producto</th>
-                        <th>Precio Unitario</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-productos">
-                    <tr>
-                        <td>7501020304050</td>
-                        <td>Monitor Asus Vivobook Go</td>
-                        <td>$4,500.00</td>
-                        <td>1</td>
-                        <td>$4,500.00</td>
-                        <td><button class="btn-remove">X</button></td>
-                    </tr>
-                    <tr>
-                        <td>7509080706050</td>
-                        <td>Teclado Mecánico</td>
-                        <td>$850.00</td>
-                        <td>2</td>
-                        <td>$1,700.00</td>
-                        <td><button class="btn-remove">X</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="sales-summary">
-                <div class="total-text">Total:</div>
-                <div class="total-amount" id="total-venta">$6,200.00</div>
-                <button class="btn-cobrar" id="btn-procesar-venta">Procesar Venta</button>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal-overlay" id="modal-corte">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Corte de Caja - Resumen del Turno</h2>
-                <button class="close-modal" id="btn-cerrar-x">&times;</button>
+        <div class="left-panel">
+            <div class="search-container">
+                <input type="text" id="buscar-producto" placeholder="Escribe para buscar un producto..." autocomplete="off">
+                <div id="resultados-busqueda" class="autocomplete-items"></div>
             </div>
 
-            <div class="modal-body">
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Código</th>
                             <th>Producto</th>
-                            <th>Precio Unitario</th>
-                            <th>Cantidad Vendida</th>
+                            <th>Cant.</th>
+                            <th>Precio U.</th>
                             <th>Subtotal</th>
+                            <th>Quitar</th>
                         </tr>
                     </thead>
-                    <tbody id="lista-resumen-turno">
-                        <tr>
-                            <td>7501020304050</td>
-                            <td>Monitor Asus Vivobook Go</td>
-                            <td>$4,500.00</td>
-                            <td>3</td>
-                            <td>$13,500.00</td>
-                        </tr>
-                        <tr>
-                            <td>7509080706050</td>
-                            <td>Teclado Mecánico</td>
-                            <td>$850.00</td>
-                            <td>6</td>
-                            <td>$5,100.00</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="lista-carrito">
+                        </tbody>
                 </table>
+            </div>
+        </div>
 
-                <div class="sales-summary" style="border-top: none; padding-top: 0;">
-                    <div class="total-text">Total:</div>
-                    <div class="total-amount" style="color: var(--text-main);">$18,600.00</div>
+        <div class="right-panel">
+            <div>
+                <div class="totals-row">
+                    <span>Artículos en carrito:</span>
+                    <strong id="resumen-cantidad">0</strong>
+                </div>
+                <div class="grand-total">
+                    <span>Total:</span>
+                    <span id="resumen-total">$0.00</span>
                 </div>
             </div>
+            <button class="btn-checkout" id="btn-realizar-venta">Realizar Venta</button>
+        </div>
+    </main>
 
+    <div class="modal-overlay" id="modal-autorizacion">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Autorización Requerida</h2>
+                <button class="close-modal" id="btn-cerrar-autorizacion">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Para eliminar un producto de la venta activa, ingresa la contraseña de un Administrador.</p>
+                <div style="margin-top: 1rem;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Contraseña:</label>
+                    <input type="password" id="input-auth-password" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                </div>
+                <p id="auth-error-msg" style="color: var(--danger-btn); display: none; margin-top: 0.5rem; font-weight: bold;">Contraseña incorrecta.</p>
+            </div>
             <div class="modal-footer">
-                <button class="btn-cancel" id="btn-cancelar-corte">Cancelar</button>
-                <button class="btn-confirm" id="btn-confirmar-corte">Realizar Corte de Caja</button>
+                <button class="btn-cancel" id="btn-cancelar-autorizacion">Cancelar</button>
+                <button class="btn-confirm" id="btn-confirmar-autorizacion">Autorizar</button>
             </div>
         </div>
     </div>
 
     <script>
-        const modalCorte = document.getElementById('modal-corte');
-        const btnCorteCaja = document.getElementById('btn-corte-caja');
-        const btnCerrarX = document.getElementById('btn-cerrar-x');
-        const btnCancelarCorte = document.getElementById('btn-cancelar-corte');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const inputBuscar = document.getElementById('buscar-producto');
+            const divResultados = document.getElementById('resultados-busqueda');
+            const tbodyCarrito = document.getElementById('lista-carrito');
+            const txtCantidad = document.getElementById('resumen-cantidad');
+            const txtTotal = document.getElementById('resumen-total');
+            const btnVenta = document.getElementById('btn-realizar-venta');
 
-        btnCorteCaja.addEventListener('click', () => {
-            modalCorte.style.display = 'flex';
-        });
+            let inventarioDisponible = [];
+            let carrito = [];
 
-        const cerrarModal = () => {
-            modalCorte.style.display = 'none';
-        };
+            try {
+                const response = await fetch('data/inventario.xml');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, "text/xml");
+                const productosXML = xmlDoc.getElementsByTagName('producto');
+                const ajustesGuardados = JSON.parse(sessionStorage.getItem('ajustesInventario')) || {};
 
-        btnCerrarX.addEventListener('click', cerrarModal);
-        btnCancelarCorte.addEventListener('click', cerrarModal);
+                for (let i = 0; i < productosXML.length; i++) {
+                    const p = productosXML[i];
+                    let id = p.getElementsByTagName('id')[0].textContent;
+                    let stockBase = parseInt(p.getElementsByTagName('stock')[0].textContent);
+                    
+                    if(ajustesGuardados[id]) {
+                        stockBase += ajustesGuardados[id];
+                    }
 
-        window.addEventListener('click', (evento) => {
-            if (evento.target === modalCorte) {
-                cerrarModal();
+                    inventarioDisponible.push({
+                        id: id,
+                        nombre: p.getElementsByTagName('nombre')[0].textContent,
+                        precio: parseFloat(p.getElementsByTagName('precio')[0].textContent),
+                        stock: stockBase
+                    });
+                }
+            } catch (error) {
+                console.error("Error cargando inventario:", error);
             }
+
+            inputBuscar.addEventListener('input', function() {
+                const val = this.value.toLowerCase();
+                divResultados.innerHTML = '';
+                
+                if (!val) {
+                    divResultados.style.display = 'none';
+                    return;
+                }
+
+                const resultados = inventarioDisponible.filter(p => 
+                    (p.nombre.toLowerCase().includes(val) || p.id.toLowerCase().includes(val)) && p.stock > 0
+                );
+
+                if (resultados.length > 0) {
+                    divResultados.style.display = 'block';
+                    resultados.forEach(prod => {
+                        const item = document.createElement('div');
+                        item.className = 'autocomplete-item';
+                        item.innerHTML = `<span>${prod.nombre} <small>(${prod.id})</small></span> <strong>$${prod.precio.toFixed(2)} | Disp: ${prod.stock}</strong>`;
+                        
+                        item.addEventListener('click', () => {
+                            agregarAlCarrito(prod);
+                            inputBuscar.value = '';
+                            divResultados.style.display = 'none';
+                        });
+                        divResultados.appendChild(item);
+                    });
+                } else {
+                    divResultados.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (e.target !== inputBuscar) divResultados.style.display = 'none';
+            });
+
+            function agregarAlCarrito(producto) {
+                const existente = carrito.find(item => item.id === producto.id);
+                if (existente) {
+                    if (existente.cantidad < producto.stock) {
+                        existente.cantidad++;
+                    } else {
+                        alert("No hay más stock disponible de este producto.");
+                    }
+                } else {
+                    carrito.push({ ...producto, cantidad: 1 });
+                }
+                renderizarCarrito();
+            }
+
+            function renderizarCarrito() {
+                tbodyCarrito.innerHTML = '';
+                let cantidadTotal = 0;
+                let granTotal = 0;
+
+                carrito.forEach((item, index) => {
+                    const subtotal = item.precio * item.cantidad;
+                    cantidadTotal += item.cantidad;
+                    granTotal += subtotal;
+
+                    const fila = `
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.nombre}</td>
+                            <td><strong>${item.cantidad}</strong></td>
+                            <td>$${item.precio.toFixed(2)}</td>
+                            <td>$${subtotal.toFixed(2)}</td>
+                            <td><button class="btn-remove" data-index="${index}">X</button></td>
+                        </tr>
+                    `;
+                    tbodyCarrito.insertAdjacentHTML('beforeend', fila);
+                });
+
+                txtCantidad.textContent = cantidadTotal;
+                txtTotal.textContent = '$' + granTotal.toFixed(2);
+            }
+
+            const modalAuth = document.getElementById('modal-autorizacion');
+            const inputAuth = document.getElementById('input-auth-password');
+            const errorMsg = document.getElementById('auth-error-msg');
+            let indiceAEliminar = null;
+
+            tbodyCarrito.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-remove')) {
+                    indiceAEliminar = e.target.getAttribute('data-index');
+                    inputAuth.value = '';
+                    errorMsg.style.display = 'none';
+                    modalAuth.style.display = 'flex';
+                }
+            });
+
+            const cerrarAuth = () => modalAuth.style.display = 'none';
+            document.getElementById('btn-cerrar-autorizacion').addEventListener('click', cerrarAuth);
+            document.getElementById('btn-cancelar-autorizacion').addEventListener('click', cerrarAuth);
+
+            document.getElementById('btn-confirmar-autorizacion').addEventListener('click', async () => {
+                const passwordIngresada = inputAuth.value;
+                try {
+                    const response = await fetch('data/usuarios.xml');
+                    const text = await response.text();
+                    const xmlDoc = new DOMParser().parseFromString(text, "text/xml");
+                    const usuarios = xmlDoc.getElementsByTagName('usuario');
+                    let autorizado = false;
+
+                    for (let i = 0; i < usuarios.length; i++) {
+                        const rol = usuarios[i].getElementsByTagName('rol')[0].textContent;
+                        const pass = usuarios[i].getElementsByTagName('password')[0].textContent;
+                        if (rol === 'Administrador' && pass === passwordIngresada) {
+                            autorizado = true; break;
+                        }
+                    }
+
+                    if (autorizado) {
+                        carrito.splice(indiceAEliminar, 1);
+                        renderizarCarrito();
+                        cerrarAuth();
+                    } else {
+                        errorMsg.style.display = 'block';
+                    }
+                } catch (error) {
+                    alert("Error validando usuario.");
+                }
+            });
+
+            btnVenta.addEventListener('click', () => {
+                if (carrito.length === 0) {
+                    alert('El carrito está vacío. Agrega productos para cobrar.');
+                    return;
+                }
+
+                const movsInventario = JSON.parse(sessionStorage.getItem('movimientosInventario')) || [];
+                const ajustesInv = JSON.parse(sessionStorage.getItem('ajustesInventario')) || {};
+                const historialVentas = JSON.parse(sessionStorage.getItem('historialVentas')) || []; // Nuevo historial para Ventas
+                
+                const usuarioActual = sessionStorage.getItem('usuarioActivo') || 'cajero_01';
+                const fechaActual = new Date().toLocaleString();
+                const folioVenta = 'VNT-' + Math.floor(Math.random() * 10000);
+                let totalCosto = 0;
+
+                carrito.forEach(item => {
+                    ajustesInv[item.id] = (ajustesInv[item.id] || 0) - item.cantidad;
+
+                    movsInventario.unshift({
+                        id: 'MOV-' + Math.floor(Math.random() * 10000),
+                        fecha: fechaActual,
+                        tipo: 'Venta',
+                        producto: item.nombre,
+                        cantidad: '-' + item.cantidad,
+                        usuario: usuarioActual
+                    });
+                    
+                    totalCosto += (item.precio * item.cantidad);
+                    
+                    const invReal = inventarioDisponible.find(p => p.id === item.id);
+                    if(invReal) invReal.stock -= item.cantidad;
+                });
+
+                historialVentas.unshift({
+                    folio: folioVenta,
+                    fecha: fechaActual,
+                    total: totalCosto,
+                    cajero: usuarioActual,
+                    articulos: carrito.length
+                });
+
+                sessionStorage.setItem('ajustesInventario', JSON.stringify(ajustesInv));
+                sessionStorage.setItem('movimientosInventario', JSON.stringify(movsInventario));
+                sessionStorage.setItem('historialVentas', JSON.stringify(historialVentas));
+
+                alert(`¡Venta procesada con éxito!\nFolio: ${folioVenta}\nTotal: $${totalCosto.toFixed(2)}`);
+                
+                carrito = [];
+                renderizarCarrito();
+            });
         });
     </script>
 </body>
-
 </html>

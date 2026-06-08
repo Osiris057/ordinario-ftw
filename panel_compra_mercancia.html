@@ -213,9 +213,9 @@
     </header>
 
     <div class="toolbar">
-        <button class="toolbar-btn" id="btn-historial-compras">
-            Mostrar historial de compras
-        </button>
+        <a href="panel_historial_de_compras.html" class="toolbar-btn" id="btn-volver">
+            Mostrar Historial de compras
+        </a>
         <a href="panel_admin.html" class="toolbar-btn volver" id="btn-volver">
             Volver al menú principal
         </a>
@@ -271,6 +271,21 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const botonesEliminar = document.querySelectorAll('.btn-remove');
+
+        botonesEliminar.forEach(boton => {
+            boton.addEventListener('click', function() {
+                const confirmar = confirm("¿Estás seguro de que deseas quitar este producto de la orden de compra?");
+                
+                if (confirmar) {
+                    const fila = this.closest('tr');
+                    fila.remove();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

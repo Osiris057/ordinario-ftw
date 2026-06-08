@@ -15,165 +15,57 @@
             --primary-hover: #1d4ed8;
             --border-color: #cbd5e1;
             --danger-btn: #ef4444;
-            --danger-hover: #dc2626;
             --toolbar-bg: #f8fafc;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            margin: 0;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-dark); margin: 0; color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: var(--box-light); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10; }
+        header img { max-height: 40px; width: auto; }
+        header h1 { margin: 0; font-size: 1.5rem; color: var(--text-main); }
+        
+        .toolbar { background-color: var(--toolbar-bg); padding: 0.8rem 2rem; display: flex; gap: 1.5rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; }
+        .toolbar-btn { background: none; border: none; color: var(--text-main); font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; transition: background-color 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+        .toolbar-btn:hover { background-color: #e2e8f0; }
+        .toolbar-btn.volver { color: var(--primary-btn); }
+        .toolbar-btn.peligro { color: var(--danger-btn); }
+        .toolbar-btn.peligro:hover { background-color: #fee2e2; }
+        
+        main { flex: 1; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        .search-container { width: 100%; max-width: 800px; margin: 0 auto; display: flex; }
+        .search-container input { width: 100%; padding: 1rem 1.5rem; font-size: 1.1rem; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .search-container input:focus { outline: none; border-color: var(--primary-btn); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+        
+        .table-container { background-color: var(--box-light); border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); flex: 1; display: flex; flex-direction: column; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f1f5f9; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; }
+        td { font-size: 1rem; }
+        
+        .btn-edit { background-color: #f8fafc; color: var(--primary-btn); border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .btn-edit:hover { background-color: var(--primary-btn); color: white; border-color: var(--primary-btn); }
 
-        header {
-            background-color: var(--box-light);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
+        /* --- Estilos de los Modales --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background-color: var(--box-light); border-radius: 10px; width: 90%; max-width: 500px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
+        .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; }
+        .modal-header h2 { margin: 0; color: var(--text-main); font-size: 1.5rem; }
+        .close-modal { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
+        .close-modal:hover { color: var(--danger-btn); }
+        .modal-body { padding: 2rem; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 1rem; background-color: #f8fafc; }
+        .btn-cancel, .btn-confirm { padding: 0.8rem 1.5rem; border-radius: 5px; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+        .btn-cancel { background-color: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn-cancel:hover { background-color: #e2e8f0; }
+        .btn-confirm { background-color: var(--primary-btn); color: white; border: none; }
+        .btn-confirm:hover { background-color: var(--primary-hover); }
 
-        header img {
-            max-height: 40px;
-            width: auto;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--text-main);
-        }
-
-        .toolbar {
-            background-color: var(--toolbar-bg);
-            padding: 0.8rem 2rem;
-            display: flex;
-            gap: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .toolbar-btn {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .toolbar-btn:hover {
-            background-color: #e2e8f0;
-        }
-
-        .toolbar-btn.volver {
-            color: var(--primary-btn);
-        }
-
-        .toolbar-btn.peligro {
-            color: var(--danger-btn);
-        }
-
-        .toolbar-btn.peligro:hover {
-            background-color: #fee2e2;
-        }
-
-        main {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .search-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: var(--primary-btn);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-
-        .table-container {
-            background-color: var(--box-light);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        td {
-            font-size: 1rem;
-        }
-
-        .btn-edit {
-            background-color: #f8fafc;
-            color: var(--primary-btn);
-            border: 1px solid var(--border-color);
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .btn-edit:hover {
-            background-color: var(--primary-btn);
-            color: white;
-            border-color: var(--primary-btn);
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            .toolbar { justify-content: center; flex-direction: column; }
+            .toolbar-btn { width: 100%; justify-content: center; }
+            main { padding: 1rem; }
+            .table-container { padding: 1rem; }
         }
     </style>
 </head>
@@ -185,18 +77,9 @@
     </header>
 
     <div class="toolbar">
-        <button class="toolbar-btn" id="btn-agregar-proveedor">
-            Agregar Proveedor
-        </button>
-        <button class="toolbar-btn peligro" id="btn-eliminar-proveedor">
-            Eliminar Proveedor
-        </button>
-        <a href="panel_admin.html" class="toolbar-btn volver" id="btn-volver">
-            Volver al menú principal
-        </a>
-        <button onclick="window.history.back()" class="toolbar-btn volver" id="btn-volver">
-            Regresar
-        </button>
+        <button class="toolbar-btn" id="btn-agregar-proveedor">Agregar Proveedor</button>
+        <button class="toolbar-btn peligro" id="btn-eliminar-proveedor">Eliminar Proveedor</button>
+        <a href="panel_admin.html" class="toolbar-btn volver">Volver al menú principal</a>
     </div>
 
     <main>
@@ -217,34 +100,177 @@
                     </tr>
                 </thead>
                 <tbody id="lista-proveedores">
-                    <tr>
-                        <td>PROV-001</td>
-                        <td>Distribuidora Tech</td>
-                        <td>Juan Pérez</td>
-                        <td>555-0123-456</td>
-                        <td>contacto@disttech.com</td>
-                        <td><button class="btn-edit">Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td>PROV-002</td>
-                        <td>Periféricos del Golfo</td>
-                        <td>Ana López</td>
-                        <td>555-0456-789</td>
-                        <td>ventas@perigolfo.mx</td>
-                        <td><button class="btn-edit">Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td>PROV-003</td>
-                        <td>Mayoristas de Cómputo S.A.</td>
-                        <td>Carlos Martínez</td>
-                        <td>555-0789-012</td>
-                        <td>cmartinez@mayoristas.com</td>
-                        <td><button class="btn-edit">Editar</button></td>
-                    </tr>
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </main>
 
+    <div class="modal-overlay" id="modal-agregar-proveedor">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Nuevo Proveedor</h2>
+                <button class="close-modal" id="btn-cerrar-agregar-p">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Nombre de la Empresa:</label>
+                    <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Contacto Principal:</label>
+                    <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Teléfono:</label>
+                    <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Correo Electrónico:</label>
+                    <input type="email" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="btn-cancelar-agregar-p">Cancelar</button>
+                <button class="btn-confirm" style="background-color: #10b981;">Guardar Proveedor</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-eliminar-proveedor">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Eliminar Proveedor</h2>
+                <button class="close-modal" id="btn-cerrar-eliminar-p">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Ingresa el ID del proveedor que deseas eliminar.</p>
+                <div style="margin-top: 1rem;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">ID de Proveedor:</label>
+                    <input type="text" placeholder="Ej. PROV-001" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="btn-cancelar-eliminar-p">Cancelar</button>
+                <button class="btn-confirm" style="background-color: var(--danger-btn);">Eliminar Proveedor</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-editar-proveedor">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Proveedor</h2>
+                <button class="close-modal" id="btn-cerrar-editar-p">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">ID de Proveedor:</label>
+                    <input type="text" id="edit-p-id" disabled style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box; background-color: #f1f5f9;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Nombre de la Empresa:</label>
+                    <input type="text" id="edit-p-empresa" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Contacto Principal:</label>
+                    <input type="text" id="edit-p-contacto" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Teléfono:</label>
+                    <input type="text" id="edit-p-telefono" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                    <div><label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">Correo Electrónico:</label>
+                    <input type="email" id="edit-p-correo" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="btn-cancelar-editar-p">Cancelar</button>
+                <button class="btn-confirm">Actualizar Datos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('lista-proveedores');
+            const searchInput = document.getElementById('buscar-proveedor');
+            let dbProveedores = [];
+
+            try {
+                const response = await fetch('data/proveedores.xml');
+                if (!response.ok) throw new Error('No se encontró el XML');
+                
+                const text = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, "text/xml");
+                const provsXML = xmlDoc.getElementsByTagName('proveedor');
+
+                for (let i = 0; i < provsXML.length; i++) {
+                    const p = provsXML[i];
+                    dbProveedores.push({
+                        id: p.getElementsByTagName('id')[0].textContent,
+                        empresa: p.getElementsByTagName('empresa')[0].textContent,
+                        contacto: p.getElementsByTagName('contacto')[0].textContent,
+                        telefono: p.getElementsByTagName('telefono')[0].textContent,
+                        correo: p.getElementsByTagName('correo')[0].textContent
+                    });
+                }
+
+                const renderizarTabla = (proveedores) => {
+                    tbody.innerHTML = '';
+                    if (proveedores.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No se encontraron proveedores.</td></tr>';
+                        return;
+                    }
+                    proveedores.forEach(prov => {
+                        const filaHTML = `
+                            <tr>
+                                <td>${prov.id}</td>
+                                <td>${prov.empresa}</td>
+                                <td>${prov.contacto}</td>
+                                <td>${prov.telefono}</td>
+                                <td>${prov.correo}</td>
+                                <td><button class="btn-edit">Editar</button></td>
+                            </tr>
+                        `;
+                        tbody.insertAdjacentHTML('beforeend', filaHTML);
+                    });
+                };
+
+                renderizarTabla(dbProveedores); // Render inicial
+
+                // Filtrado en Tiempo Real
+                searchInput.addEventListener('input', (e) => {
+                    const txt = e.target.value.toLowerCase();
+                    const filtrados = dbProveedores.filter(prov => 
+                        prov.empresa.toLowerCase().includes(txt) ||
+                        prov.id.toLowerCase().includes(txt) ||
+                        prov.contacto.toLowerCase().includes(txt)
+                    );
+                    renderizarTabla(filtrados);
+                });
+
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error cargando proveedores.xml. Verifica que el archivo exista y tenga datos.</td></tr>';
+            }
+
+            const modalAgregarP = document.getElementById('modal-agregar-proveedor');
+            document.getElementById('btn-agregar-proveedor').addEventListener('click', () => modalAgregarP.style.display = 'flex');
+            const cerrarAgregarP = () => modalAgregarP.style.display = 'none';
+            document.getElementById('btn-cerrar-agregar-p').addEventListener('click', cerrarAgregarP);
+            document.getElementById('btn-cancelar-agregar-p').addEventListener('click', cerrarAgregarP);
+
+            const modalEliminarP = document.getElementById('modal-eliminar-proveedor');
+            document.getElementById('btn-eliminar-proveedor').addEventListener('click', () => modalEliminarP.style.display = 'flex');
+            const cerrarEliminarP = () => modalEliminarP.style.display = 'none';
+            document.getElementById('btn-cerrar-eliminar-p').addEventListener('click', cerrarEliminarP);
+            document.getElementById('btn-cancelar-eliminar-p').addEventListener('click', cerrarEliminarP);
+
+            const modalEditarP = document.getElementById('modal-editar-proveedor');
+            tbody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-edit')) {
+                    const fila = e.target.closest('tr');
+                    document.getElementById('edit-p-id').value = fila.cells[0].textContent;
+                    document.getElementById('edit-p-empresa').value = fila.cells[1].textContent;
+                    document.getElementById('edit-p-contacto').value = fila.cells[2].textContent;
+                    document.getElementById('edit-p-telefono').value = fila.cells[3].textContent;
+                    document.getElementById('edit-p-correo').value = fila.cells[4].textContent;
+                    modalEditarP.style.display = 'flex';
+                }
+            });
+
+            const cerrarEditarP = () => modalEditarP.style.display = 'none';
+            document.getElementById('btn-cerrar-editar-p').addEventListener('click', cerrarEditarP);
+            document.getElementById('btn-cancelar-editar-p').addEventListener('click', cerrarEditarP);
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timezone" content="America/Mexico_City">
+    <title>Historial de Inventario - Atlas Corporation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --box-light: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-btn: #2563eb;
+            --border-color: #cbd5e1;
+            --danger-btn: #ef4444;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --toolbar-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--box-light);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        header img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toolbar-btn:hover { background-color: #e2e8f0; }
+        .toolbar-btn.volver { color: var(--primary-btn); }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            background-color: var(--box-light);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f1f5f9; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; }
+
+        .badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+        .badge-compra { background-color: #d1fae5; color: var(--success-color); }
+        .badge-venta { background-color: #fee2e2; color: var(--danger-btn); }
+        .badge-ajuste { background-color: #fef3c7; color: var(--warning-color); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="src/LOGO_ATLAS_PNG_SIN_LETRAS.png" alt="Logo de Atlas Corporation">
+        <h1>Historial de Movimientos de Inventario</h1>
+    </header>
+
+    <div class="toolbar">
+        <button class="toolbar-btn" id="btn-exportar">
+            Exportar Reporte
+        </button>
+        <a href="panel_admin.html" class="toolbar-btn volver">
+            Volver al menu principal
+        </a>
+         <button onclick="window.history.back()" class="toolbar-btn volver" id="btn-volver">
+            Regresar
+        </button>
+    </div>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="buscar-historial" placeholder="Buscar por ID, producto o usuario..." autofocus>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Fecha y Hora</th>
+                        <th>Tipo</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-historial">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('lista-historial');
+            const searchInput = document.getElementById('buscar-historial');
+            let baseHistorial = [];
+
+            try {
+                // 1. Leer el XML base
+                const response = await fetch('data/historial_inventario.xml');
+                if (response.ok) {
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(text, "text/xml");
+                    const movsXML = xmlDoc.getElementsByTagName('movimiento');
+
+                    for (let i = 0; i < movsXML.length; i++) {
+                        const m = movsXML[i];
+                        baseHistorial.push({
+                            id: m.getElementsByTagName('id')[0].textContent,
+                            fecha: m.getElementsByTagName('fecha')[0].textContent,
+                            tipo: m.getElementsByTagName('tipo')[0].textContent,
+                            producto: m.getElementsByTagName('producto')[0].textContent,
+                            cantidad: m.getElementsByTagName('cantidad')[0].textContent,
+                            usuario: m.getElementsByTagName('usuario')[0].textContent
+                        });
+                    }
+                }
+
+                // 2. Recuperar movimientos temporales (los que harás durante el video)
+                const movsTemporales = JSON.parse(sessionStorage.getItem('movimientosInventario')) || [];
+                
+                // Unir ambos historiales (poniendo los temporales primero porque son más recientes)
+                const historialCompleto = [...movsTemporales, ...baseHistorial];
+
+                const renderizarTabla = (movimientos) => {
+                    tbody.innerHTML = '';
+                    if (movimientos.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay movimientos registrados.</td></tr>';
+                        return;
+                    }
+
+                    movimientos.forEach(mov => {
+                        let claseBadge = '';
+                        if(mov.tipo.toLowerCase() === 'compra') claseBadge = 'badge-compra';
+                        else if(mov.tipo.toLowerCase() === 'venta') claseBadge = 'badge-venta';
+                        else claseBadge = 'badge-ajuste';
+
+                        const filaHTML = `
+                            <tr>
+                                <td>${mov.id}</td>
+                                <td>${mov.fecha}</td>
+                                <td><span class="badge ${claseBadge}">${mov.tipo}</span></td>
+                                <td>${mov.producto}</td>
+                                <td><strong>${mov.cantidad}</strong></td>
+                                <td>${mov.usuario}</td>
+                            </tr>
+                        `;
+                        tbody.insertAdjacentHTML('beforeend', filaHTML);
+                    });
+                };
+
+                // Render inicial
+                renderizarTabla(historialCompleto);
+
+                // Filtrado
+                searchInput.addEventListener('input', (e) => {
+                    const textoBusqueda = e.target.value.toLowerCase();
+                    const filtrados = historialCompleto.filter(mov => 
+                        mov.producto.toLowerCase().includes(textoBusqueda) ||
+                        mov.id.toLowerCase().includes(textoBusqueda) ||
+                        mov.usuario.toLowerCase().includes(textoBusqueda)
+                    );
+                    renderizarTabla(filtrados);
+                });
+
+            } catch (error) {
+                console.error("Error al cargar historial:", error);
+            }
+        });
+    </script>
+</body>
+</html>
